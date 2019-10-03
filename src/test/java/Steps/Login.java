@@ -11,8 +11,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
 @CucumberOptions
 @cucumber.api.CucumberOptions
 
@@ -25,6 +28,8 @@ public class Login {
         System.setProperty("webdriver.chrome.driver", "C://drivers/chromedriver.exe");
         driver = new ChromeDriver();
         driver.get("https://uat.test-aws.reams-elias.co.uk/user/login");
+        WebDriverWait wait = new WebDriverWait (driver, 30);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath( "//input[@id='email']" )));
     }
     @When("^enter value in the Email field$")
     public void enter_value_in_the_Email_field() {
@@ -46,18 +51,15 @@ public class Login {
     }
     @Then("^go to home page$")
     public void go_to_home_page() {
-        WebElement topbar = driver.findElement(By.xpath("//div[@class='topbar___VGc3o']"));
-        if (topbar.isDisplayed()) {
-            System.out.println("you are logged in!!!");
-        } else
-            {
-                System.out.println("you are not logged in");
-       }
+        WebDriverWait wait = new WebDriverWait (driver, 20);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath( "//span[contains(text(),'Home')]" )));
+        Boolean isPresent = driver.findElements(By.xpath("//span[contains(text(),'Home')]")).size() > 0;
     }
     @When("^Facilities block check$")
     public void Facilities_block_check() {
-        WebElement Facilities = driver.findElement(By.xpath("//div[@class='facilitiesContainer___1u0SN']"));
-        Facilities.isDisplayed();
+        WebDriverWait wait = new WebDriverWait (driver, 20);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.tagName("span")));
+        WebElement Facilities = driver.findElement(By.tagName("span"));
         if (Facilities.isDisplayed()) {
             System.out.println("Block checked!");
         } else {
@@ -66,12 +68,14 @@ public class Login {
     }
         @And("^Check displayed colums$")
         public void Check_displayed_colums() {
-            WebElement name = driver.findElement(By.xpath("//div[@class='ant-table ant-table-default ant-table-scroll-position-left']//span[@class='ant-table-column-title'][contains(text(),'Name')]"));
+            WebDriverWait wait = new WebDriverWait (driver, 20);
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("ant-table-column-title")));
+            WebElement name = driver.findElement(By.className("ant-table-column-title"));
             WebElement Status = driver.findElement(By.xpath("//span[contains(text(),'Status')]"));
             WebElement Site = driver.findElement(By.xpath("//span[contains(text(),'Site')]"));
             WebElement Postcode = driver.findElement(By.xpath("//span[contains(text(),'Postcode')]"));
             WebElement Assets = driver.findElement(By.xpath("//span[contains(text(),'Assets')]"));
-            WebElement LastEdited = driver.findElement(By.xpath("//th[@class='rightAlign___3pvJO borderRightNone___Ffwe1 ant-table-column-has-actions ant-table-column-has-sorters ant-table-column-sort']//span[@class='ant-table-column-title'][contains(text(),'Last Edited')]"));
+           // WebElement LastEdited = driver.findElement(By.xpath("//span[contains(text(),'Last edited id=\"LastEdited\"')]")).findElement(By.name("Last edited"));
             if (name.isDisplayed()) {
                 System.out.println("Colum name checked!");
             } else {
