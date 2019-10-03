@@ -9,3 +9,7 @@ Feature: Test login form
     And enter value in the Password field
     And press Login button
     Then go to home page
+    When Facilities block check
+    And Check displayed colums
+
+

@@ -1,0 +1,8 @@
+Scenario: In dropdown select everyone object
+      Given Navigate to block Facilities
+      When In dropdown select Name
+    And In dropdown select Status
+      And In dropdown select Site
+      And In dropdown select Postcode
+      And In dropdown select Assets
+      And In dropdown select Last Edited
